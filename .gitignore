@@ -1,0 +1,8 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+.env
+rag_data/chroma_db/
+rag_data/bm25_chunks.pkl
+*.sqlite3

@@ -1,76 +1,101 @@
 # 🔌 Dark Fibre Framework Agreement Engine
 
-**AI-Guided Legal-Grade Contract Wizard**
-RAG + LangChain + Google Gemini + ChromaDB + Streamlit
+# Telecom Proposal Engine
 
-## Architecture
+An AI-assisted Streamlit application for generating telecom proposals and Dark Fibre framework agreements across three levels of complexity.
 
-```
-User → Streamlit UI (5-Phase Wizard)
-         ↓
-    DarkFibreAgent (proposal_agent.py)
-     ├── Phase Config (phases.py) — 5 phases, 35+ fields
-     ├── LLM Engine (llm_engine.py) — Gemini 1.5 Pro
-     ├── RAG Retriever (rag_retriever.py) → ChromaDB
-     └── Prompts (prompts.py) — system, chat, generation, risk
-         ↑
-    RAG Ingestion (rag_ingest.py) — .doc/.pdf/.docx → chunks → embeddings
-```
+## Overview
 
-## 5-Phase Wizard
+The Telecom Proposal Engine helps users create:
 
-| Phase | Focus | Clauses |
-|-------|-------|---------|
-| 1 | Entity & Admin | Cover Page, Clause 19 (Notices) |
-| 2 | Wayleave & Access | Clauses 3-5, Schedule 1 |
-| 3 | Commercials & Pricing | Clauses 9-11 |
-| 4 | Liability & Termination | Clauses 12-14 |
-| 5 | Technical SLAs | Schedule 2 |
+- **Level 1** — Quick telecom proposals
+- **Level 2** — Standard business proposals
+- **Level 3** — Dark Fibre framework agreements with executive risk summaries
 
-## Files
+The system combines:
 
-```
-dark_fibre_engine/
-├── app.py              # Streamlit UI
-├── config.py           # Settings
-├── phases.py           # 5-phase field definitions
-├── prompts.py          # All LLM prompts
-├── llm_engine.py       # Gemini wrapper
-├── agent_state.py      # Session state (Pydantic)
-├── proposal_agent.py   # Core agent logic
-├── rag_ingest.py       # Doc ingestion (.doc/.pdf/.docx)
-├── rag_retriever.py    # ChromaDB retrieval
-├── requirements.txt
-├── .env.example
-└── rag_data/           # 10 Dark Fibre reference docs
-```
+- **Gemini 2.5 Flash** for text generation
+- **RAG (Retrieval-Augmented Generation)** for knowledge-grounded answers
+- **Hybrid retrieval** using **BM25 + MiniLM embeddings**
+- **Streamlit** for the user interface
 
-## Quick Start
+This project was built as an MVP for proposal automation in the telecom domain, with a focus on improving speed, consistency, and usability for SMEs.
 
-```bash
-pip install -r requirements.txt
-cp .env.example .env    # Add your GOOGLE_API_KEY
-python rag_ingest.py    # Ingest the 10 reference docs
-streamlit run app.py    # Launch the wizard
-```
+---
 
 ## Key Features
 
-- **Risk-Aware Drafting**: Warns about high-risk concessions (uncapped liability, no indexation)
-- **Cross-Clause Logic**: Changes in one clause flag impacts on others
-- **RAG Context**: 10 reference docs provide domain knowledge during generation
-- **Executive Risk Summary**: Plain English breakdown of commercial position
-- **Intelligent Handholding**: Colleague-style Q&A, not form filling
+- Multi-level proposal workflow:
+  - **L1:** Fast proposal generation
+  - **L2:** Standard detailed proposal generation
+  - **L3:** Dark Fibre contract-style agreement drafting
+- Wizard-style intake flow
+- Smart defaults for Dark Fibre questions
+- Risk-aware clause logic
+- Knowledge Base Q&A using RAG
+- Executive Risk Summary generation for L3
+- Save, view, and manage generated proposals
+- Markdown and text export
 
-## Reference Documents (in rag_data/)
+---
 
-1. Dark Fibre Framework Agreement Template v0.1
-2. Level 3 Intake Questionnaire
-3. Product Requirements Document (PRD)
-4. System Instruction Block (Rules of the Game)
-5. Prompting Flow for Wizard Interface
-6. Further Q&A Dialogue
-7. Clause Intelligence Map
-8. 25 Cross-Clause Logic Rules
-9. Telecom Contract Risk Matrix
-10. MVP Architecture Note
+## Levels
+
+### Level 1 — Quick Proposal
+Designed for rapid proposal generation with minimal questions.
+
+Typical use:
+- Fibre Broadband Installation
+- Wireless Networks
+- VoIP Solutions
+
+### Level 2 — Standard Proposal
+A more detailed proposal flow with fuller business and commercial content.
+
+Typical use:
+- Client-facing business proposals
+- Formal telecom service proposals
+
+### Level 3 — Dark Fibre
+A structured framework agreement workflow for Dark Fibre deals.
+
+Includes:
+- 12 intake screens
+- 5 phases
+- Contract-style agreement generation
+- Executive Risk Summary
+
+---
+
+## Tech Stack
+
+- **Python**
+- **Streamlit**
+- **LangChain**
+- **Google Gemini**
+- **ChromaDB**
+- **BM25 Retriever**
+- **Sentence Transformers** (`all-MiniLM-L6-v2`)
+
+---
+
+## Project Structure
+
+```text
+Telecom_Proposal_Engine/
+│
+├── app.py
+├── proposal_agent.py
+├── llm_engine.py
+├── prompts.py
+├── config.py
+├── levels.py
+├── phases.py
+├── cross_clause_rules.py
+├── agent_state.py
+├── rag_ingest.py
+├── rag_retriever.py
+├── storage.py
+├── rag_data/
+├── saved_proposals/
+└── README.md

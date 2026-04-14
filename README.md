@@ -5,12 +5,23 @@ RAG + CRAG + LangChain + Google Gemini + ChromaDB + Streamlit
 
 ## ⚖️ GDPR Compliance Notice
 
-**Sensitive Data Excluded from Repository**: This repository does not include proprietary company documents or vectorized embeddings (`rag_data/`, `chroma_db/`, `chroma_dark_fibre/`) due to **GDPR compliance requirements**. These files contain:
-- Company proprietary framework agreements and templates
-- Confidential internal documentation (PRDs, system instructions)
-- Sensitive embeddings and vector indices of the above
+**Selective Data Inclusion for Compliance**: This repository includes safe reference documentation but excludes GDPR-sensitive files:
 
-**Local Setup**: To run this system, you must supply your own reference documents or use the integration stubs. See [INSTALLATION.md](INSTALLATION.md) for setup instructions. The codebase is fully functional—only the specific reference documents are excluded for compliance.
+**✅ INCLUDED (Non-Sensitive Reference Documents):**
+- MVP Architecture & PRD documentation
+- System instructions & prompt flow examples
+- Q&A dialogues and general usage rules
+- 3 PDF reference materials (Q&A, marketing, terminology)
+- All Python source code with complete documentation
+
+**❌ EXCLUDED (GDPR-Sensitive Data):**
+- Legal framework agreement templates
+- SLA & commercial pricing documentation  
+- Telecom contract risk matrices & business rules
+- Intake questionnaire formats
+- Vector embeddings (chromadb, bm25 indices)
+
+**Why?** These excluded files contain company proprietary information and confidential business logic that fall under GDPR data protection requirements. Users can supply their own reference documents per [INSTALLATION.md](INSTALLATION.md). The system remains **fully reproducible and functional**.
 
 ---
 

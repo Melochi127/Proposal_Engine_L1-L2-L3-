@@ -235,26 +235,32 @@ else:
 
 ## Knowledge Base Ingestion
 
-### ⚖️ GDPR Compliance Note
+### ⚖️ GDPR Compliance: What's Included & What's Excluded
 
-**Reference documents are NOT included in the repository** due to GDPR compliance requirements. The original 18 Dark Fibre framework documents contain:
-- Proprietary company agreements
-- Confidential internal documentation
-- Sensitive business logic and rules
+**✅ Already in Repository (`rag_data/`):**
+- 3 PDF reference documents (Q&A, marketing, rules)
+- 4 DOCX documents (Architecture, PRD, system prompts, dialogue examples)
+- These contain general system information with NO sensitive data
 
-**To run the system locally**: You must supply your own reference documents in the `rag_data/` directory.
+**❌ You Must Supply Yourself:**
+- Your own legal/SLA templates (excluded for GDPR)
+- Proprietary pricing or commercial terms
+- Company-specific agreement documents
+- Any sensitive business logic documentation
+
+**Why?** The original proprietary documents contained confidential company information and are excluded to protect GDPR compliance. The system works with ANY reference documents you provide.
 
 ---
 
-### Step 1: Prepare Reference Documents
+### Step 1: Add Additional Reference Documents (Optional)
 
-Place your reference documents in `rag_data/` directory:
+To supplement the included reference materials, add more documents to `rag_data/`:
 
 ```
 rag_data/
-├── your_document1.pdf
-├── your_document2.docx
-├── your_document3.txt
+├── [already included: Q&A PDFs & architecture docs]
+├── your_additional_template.pdf
+├── your_custom_agreement.docx
 └── ... more documents
 ```
 
@@ -264,11 +270,11 @@ rag_data/
 - `.doc` (Microsoft Word 97-2003)
 - `.txt` (Plain text)
 
-**Recommended**: At least 3-5 reference documents covering:
-- Agreement templates
-- Standard clauses
-- Example contracts
-- Guidelines or best practices
+**Recommended additions:**
+- Your company's agreement templates
+- Standard clause examples
+- Additional Q&A documentation
+- Custom business rules or guidelines
 
 ### Step 2: Run Ingestion Pipeline
 

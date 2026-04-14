@@ -21,51 +21,182 @@ st.set_page_config(page_title="Telecom Proposal Engine", page_icon="📡", layou
 # ━━━ CSS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 st.markdown("""
 <style>
+    /* ━━━ Hide Elements ━━━ */
     #MainMenu, footer, header {visibility: hidden;}
     .stDeployButton {display: none;}
     [data-testid="stSidebar"] {display: none !important;}
-    .block-container {padding: 1.5rem 2rem !important; max-width: 1100px !important;}
-
+    
+    /* ━━━ Container & General ━━━ */
+    .block-container {
+        padding: 2rem 2.5rem !important; 
+        max-width: 1200px !important;
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        min-height: 100vh;
+    }
+    
+    /* ━━━ Typography ━━━ */
+    h1 {
+        color: #0f172a !important;
+        font-size: 2.5rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.02em !important;
+        margin-bottom: 0.5rem !important;
+    }
+    h2 {
+        color: #1e293b !important;
+        font-size: 1.75rem !important;
+        font-weight: 700 !important;
+        margin-top: 1.5rem !important;
+    }
+    h3 {
+        color: #334155 !important;
+        font-size: 1.3rem !important;
+        font-weight: 600 !important;
+    }
+    
+    /* ━━━ Chat Messages ━━━ */
     .ai-msg {
-        background: linear-gradient(135deg, #1e3a5f, #1a3050);
-        color: #e2e8f0; padding: 16px 20px;
-        border-radius: 16px 16px 16px 4px; margin: 10px 0;
-        font-size: 0.95rem; line-height: 1.6;
-        border-left: 4px solid #3b82f6;
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8c 100%) !important;
+        color: #f1f5f9 !important; 
+        padding: 16px 20px !important;
+        border-radius: 16px 16px 16px 4px !important; 
+        margin: 12px 0 !important;
+        font-size: 0.95rem !important; 
+        line-height: 1.6 !important;
+        border-left: 4px solid #0ea5e9 !important;
+        box-shadow: 0 4px 12px rgba(30, 58, 95, 0.15) !important;
     }
     .user-msg {
-        background: #f8fafc; color: #1e293b;
-        padding: 14px 18px;
-        border-radius: 16px 16px 4px 16px; margin: 10px 0;
-        text-align: right; font-size: 0.95rem;
-        border: 1px solid #e2e8f0;
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+        color: #ffffff !important;
+        padding: 14px 18px !important;
+        border-radius: 16px 16px 4px 16px !important; 
+        margin: 12px 0 !important;
+        text-align: right !important; 
+        font-size: 0.95rem !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15) !important;
     }
     .sys-msg {
-        background: #fef9c3; color: #713f12;
-        padding: 10px 16px; border-radius: 10px;
-        margin: 6px 0; font-size: 0.88rem;
-        border-left: 3px solid #eab308;
+        background: linear-gradient(135deg, #fef08a 0%, #fde047 100%) !important;
+        color: #78350f !important;
+        padding: 12px 16px !important; 
+        border-radius: 10px !important;
+        margin: 8px 0 !important; 
+        font-size: 0.88rem !important;
+        border-left: 4px solid #eab308 !important;
+        box-shadow: 0 2px 8px rgba(234, 179, 8, 0.1) !important;
     }
+    
+    /* ━━━ Alerts & Warnings ━━━ */
     .risk-warn {
-        background: #fef2f2; border-left: 4px solid #ef4444;
-        color: #991b1b; padding: 12px 16px;
-        border-radius: 8px; margin: 8px 0; font-size: 0.88rem;
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%) !important;
+        border-left: 4px solid #ef4444 !important;
+        color: #7f1d1d !important; 
+        padding: 14px 16px !important;
+        border-radius: 8px !important; 
+        margin: 10px 0 !important; 
+        font-size: 0.88rem !important;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1) !important;
     }
+    
+    /* ━━━ Badges ━━━ */
     .badge {
-        display: inline-block; padding: 3px 10px;
-        border-radius: 12px; font-size: 0.75rem;
-        font-weight: 700; margin-bottom: 6px;
+        display: inline-block; 
+        padding: 4px 12px;
+        border-radius: 20px; 
+        font-size: 0.75rem;
+        font-weight: 700; 
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
-    .badge-phase {background: #fef3c7; color: #92400e;}
-    .badge-q {background: #dbeafe; color: #1e40af;}
-    .badge-risk {background: #fee2e2; color: #991b1b;}
+    .badge-phase {
+        background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+        color: #92400e;
+    }
+    .badge-q {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        color: #1e40af;
+    }
+    .badge-risk {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        color: #991b1b;
+    }
+    
+    /* ━━━ Preview Styles ━━━ */
     .pv-h {
-        color: #3b82f6; font-size: 0.72rem; font-weight: 700;
-        text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px;
+        color: #0f766e !important; 
+        font-size: 0.72rem !important; 
+        font-weight: 700 !important;
+        text-transform: uppercase !important; 
+        letter-spacing: 0.08em !important; 
+        margin: 12px 0 4px 0 !important;
     }
     .pv-v {
-        color: #1e293b; font-size: 0.88rem; margin-bottom: 10px;
-        padding-bottom: 6px; border-bottom: 1px solid #f1f5f9;
+        color: #1e293b !important; 
+        font-size: 0.9rem !important; 
+        margin-bottom: 10px !important;
+        padding: 8px 12px !important;
+        background: #ffffff !important;
+        border-radius: 6px !important;
+        border-left: 3px solid #06b6d4 !important;
+    }
+    
+    /* ━━━ Buttons ━━━ */
+    .stButton > button {
+        padding: 10px 20px !important;
+        font-weight: 600 !important;
+        border-radius: 8px !important;
+        transition: all 0.25s ease !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    }
+    .stButton > button:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        transform: translateY(-2px) !important;
+    }
+    
+    /* ━━━ Cards ━━━ */
+    .card {
+        background: #ffffff !important;
+        border-radius: 12px !important;
+        padding: 24px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+        border: 1px solid #e2e8f0 !important;
+        transition: all 0.3s ease !important;
+    }
+    .card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12) !important;
+        border-color: #cbd5e1 !important;
+    }
+    
+    /* ━━━ Progress Bar ━━━ */
+    .stProgress > div > div {
+        background: linear-gradient(90deg, #3b82f6 0%, #0ea5e9 100%) !important;
+        height: 8px !important;
+    }
+    
+    /* ━━━ Input Fields ━━━ */
+    .stTextInput > div > div > input,
+    .stTextArea > div > div > textarea {
+        background: #ffffff !important;
+        border: 2px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+        transition: all 0.2s ease !important;
+    }
+    .stTextInput > div > div > input:focus,
+    .stTextArea > div > div > textarea:focus {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    }
+    
+    /* ━━━ Divider ━━━ */
+    hr {
+        border: none !important;
+        height: 2px !important;
+        background: linear-gradient(90deg, transparent, #cbd5e1, transparent) !important;
+        margin: 1.5rem 0 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -107,39 +238,50 @@ def render_chat():
 # HOME — Level Selection
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 if st.session_state.pg == "home":
+    # Header
     h1, h2 = st.columns([4, 1])
     with h1:
         st.markdown("# 📡 Telecom Proposal Engine")
-        st.markdown("**Choose your proposal level to get started**")
+        st.markdown("**Create professional telecom proposals in minutes with AI + RAG**")
     with h2:
         if st.button("📁 My Proposals", use_container_width=True):
             st.session_state.pg = "proposals"
             st.rerun()
     st.markdown("---")
 
-    # RAG status
+    # RAG Status Card
     kb = check_kb()
     if not (kb["exists"] and kb["count"] > 0):
-        if st.button("🔄 Run RAG Ingestion (one-time setup)"):
-            with st.spinner("Ingesting documents into ChromaDB..."):
+        st.info("🔄 **Knowledge Base Setup Required**")
+        if st.button("📖 Initialize RAG (Ingest Documents)", use_container_width=True, type="primary"):
+            with st.spinner("🔍 Scanning documents and building vector store..."):
                 if run_ingestion():
-                    st.success("✅ Done!")
+                    st.success("✅ Knowledge base ready! 148+ chunks indexed.")
                     st.rerun()
                 else:
-                    st.error("No documents found in rag_data/")
+                    st.error("❌ No documents found in rag_data/")
         st.markdown("---")
-
-    # Three level cards
+    
+    # Level Cards Container
+    st.markdown("### 🚀 Choose Your Proposal Type")
+    
     c1, c2, c3 = st.columns(3, gap="large")
 
+    # ─── LEVEL 1 ───
     with c1:
-        st.markdown("### ⚡ Level 1 — Quick")
-        st.markdown("**5 questions** · 2-3 min")
-        st.markdown("Fast, clean proposal export (~800 words)")
+        st.markdown("""
+        <div class="card">
+            <h3 style="margin-top: 0; color: #0f172a;">⚡ Level 1 — Quick</h3>
+            <p style="color: #64748b; margin-bottom: 16px;"><strong>5 questions</strong> • 2-3 minutes</p>
+            <p style="color: #475569; margin-bottom: 16px;">Fast, clean proposal export (~800 words). Perfect for quick quotes and initial outreach.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
         sub1 = st.selectbox(
             "Sub-sector",
             ["Fibre Broadband Installation", "Wireless Networks", "VoIP Solutions"],
             key="sub1",
+            label_visibility="collapsed"
         )
         if st.button("Start L1 →", use_container_width=True, key="bl1", type="primary"):
             s = A.create_session("L1", sub1)
@@ -151,14 +293,21 @@ if st.session_state.pg == "home":
             add_ai(A.greeting(s), "L1 Quick")
             st.rerun()
 
+    # ─── LEVEL 2 ───
     with c2:
-        st.markdown("### 📋 Level 2 — Standard")
-        st.markdown("**10 questions** · 5-7 min")
-        st.markdown("Full 9-section proposal (1500-2000 words)")
+        st.markdown("""
+        <div class="card">
+            <h3 style="margin-top: 0; color: #0f172a;">📋 Level 2 — Standard</h3>
+            <p style="color: #64748b; margin-bottom: 16px;"><strong>10 questions</strong> • 5-7 minutes</p>
+            <p style="color: #475569; margin-bottom: 16px;">Full 9-section proposal (1500-2000 words). Ideal for detailed technical and commercial proposals.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
         sub2 = st.selectbox(
             "Sub-sector",
             ["Fibre Broadband Installation", "Wireless Networks", "VoIP Solutions", "Dark Fibre Leasing"],
             key="sub2",
+            label_visibility="collapsed"
         )
         if st.button("Start L2 →", use_container_width=True, key="bl2", type="primary"):
             s = A.create_session("L2", sub2)
@@ -170,11 +319,17 @@ if st.session_state.pg == "home":
             add_ai(A.greeting(s), "L2 Standard")
             st.rerun()
 
+    # ─── LEVEL 3 ───
     with c3:
-        st.markdown("### 🔌 Level 3 — Dark Fibre")
-        st.markdown("**12 screens** · under 2 min with defaults")
-        st.markdown("Contract-grade 20-clause agreement + Risk Summary")
-        st.caption("Dark Fibre only — type 'defaults' to go fast")
+        st.markdown("""
+        <div class="card">
+            <h3 style="margin-top: 0; color: #0f172a;">🔌 Level 3 — Dark Fibre</h3>
+            <p style="color: #64748b; margin-bottom: 16px;"><strong>12 screens</strong> • under 2 min (with defaults)</p>
+            <p style="color: #475569; margin-bottom: 16px;">Contract-grade 20-clause agreement + Risk Summary. Enterprise-level infrastructure contracts.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.caption("💡 Type 'defaults' during wizard to skip optional fields")
         if st.button("Start L3 →", use_container_width=True, key="bl3", type="primary"):
             s = A.create_session("L3", "Dark Fibre")
             st.session_state.sess = s
@@ -186,8 +341,16 @@ if st.session_state.pg == "home":
             st.rerun()
 
     st.markdown("---")
-    rag_label = f"RAG: {kb['count']} chunks" if kb["exists"] and kb["count"] > 0 else "RAG offline"
-    st.caption(f"Gemini 2.5 Flash · LangChain · ChromaDB ({rag_label}) · Streamlit")
+    st.markdown("---")
+    
+    # Footer with tech stack
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.caption(f"📊 **Knowledge Base:** {kb['count']} chunks" if kb["exists"] else "📊 **Knowledge Base:** Offline")
+    with col2:
+        st.caption("🤖 **Model:** Gemini 2.5 Flash")
+    with col3:
+        st.caption("🔍 **Vector DB:** ChromaDB + BM25")
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -220,25 +383,19 @@ elif st.session_state.pg in ("wizard", "review"):
     # ── CHAT COLUMN ──
     with chat_col:
         # Toolbar
-        tb = st.columns([1, 1, 1, 1])
+        tb = st.columns([1, 1, 1])
         with tb[0]:
             if st.button("❓ Explain", use_container_width=True, key="bex"):
                 add_ai(A.explain(s), "Help")
                 st.rerun()
         with tb[1]:
-            if st.button("📚 Ask RAG", use_container_width=True, key="brag"):
-                st.session_state.show_rag = not st.session_state.show_rag
-                st.rerun()
-        with tb[2]:
-            clauses = pi.get("clauses", [])
-            if clauses:
-                st.caption(f"Clauses: {', '.join(clauses[:2])}")
-        with tb[3]:
             if st.button("🏠 Home", use_container_width=True, key="bhome"):
                 st.session_state.pg = "home"
                 st.session_state.sess = None
                 st.session_state.msgs = []
                 st.rerun()
+        with tb[2]:
+            st.write("")  # spacer
 
         st.markdown("---")
 
@@ -313,7 +470,7 @@ elif st.session_state.pg in ("wizard", "review"):
                     )
 
                 # Action buttons
-                b1, b2, b3, b4 = st.columns([1, 1, 1, 2])
+                b1, b2, b3, b4, b5 = st.columns([1, 1, 1, 1, 1.5])
                 with b1:
                     if st.button("⬅️ Back", key="bb"):
                         A.go_back(s)
@@ -327,6 +484,10 @@ elif st.session_state.pg in ("wizard", "review"):
                         add_ai(A.explain(s), "Help")
                         st.rerun()
                 with b4:
+                    if st.button("📚 RAG", key="brag"):
+                        st.session_state.show_rag = not st.session_state.show_rag
+                        st.rerun()
+                with b5:
                     if st.button("✅ Submit", key="bsub", type="primary"):
                         if user_input and user_input.strip():
                             add_user(user_input)
@@ -379,17 +540,24 @@ elif st.session_state.pg in ("wizard", "review"):
             with gc2:
                 btn_text = f"✨ Generate {lv['name']}"
                 if st.button(btn_text, use_container_width=True, type="primary", key="bgen"):
-                    with st.spinner(f"🔄 Generating {lv['name']} with AI + RAG..."):
-                        output = A.generate(s)
-                    st.session_state.out = output
-                    s.full_output = output
+                    missing = A._missing_required_fields(s)
+                    if missing:
+                        st.error(
+                            "Cannot generate: required fields are missing or placeholders remain. "
+                            f"Fill these fields first: {', '.join(missing)}"
+                        )
+                    else:
+                        with st.spinner(f"🔄 Generating {lv['name']} with AI + RAG..."):
+                            output = A.generate(s)
+                        st.session_state.out = output
+                        s.full_output = output
 
-                    if s.level == "L3":
-                        with st.spinner("📊 Generating Risk Summary..."):
-                            st.session_state.risk = A.generate_risk(s)
+                        if s.level == "L3":
+                            with st.spinner("📊 Generating Risk Summary..."):
+                                st.session_state.risk = A.generate_risk(s)
 
-                    st.balloons()
-                    st.rerun()
+                        st.balloons()
+                        st.rerun()
 
     # ── PREVIEW COLUMN ──
     with prev_col:

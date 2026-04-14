@@ -12,7 +12,7 @@ def get_llm(task="chat"):
     if not GOOGLE_API_KEY:
         raise ValueError("GOOGLE_API_KEY not set in .env")
     temps = {"chat": 0.7, "agreement": 0.4, "extraction": 0.4}
-    tokens = {"chat": 2048, "agreement": 2048, "extraction": 2048}
+    tokens = {"chat": 2048, "agreement": 4000, "extraction": 4096}
     return ChatGoogleGenerativeAI(
         model=GEMINI_MODEL,
         google_api_key=GOOGLE_API_KEY,

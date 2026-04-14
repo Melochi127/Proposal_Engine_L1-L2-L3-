@@ -15,6 +15,7 @@ class Session(BaseModel):
     current_phase: str = "phase_1"  # L3 only
     current_field_index: int = 0
     slots: Dict[str, str] = Field(default_factory=dict)
+    clarify_counts: Dict[str, int] = Field(default_factory=dict)
     chat_history: List[Dict] = Field(default_factory=list)
     full_output: str = ""
     risk_summary: str = ""

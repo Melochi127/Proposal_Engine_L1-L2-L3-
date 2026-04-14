@@ -1,0 +1,28 @@
+flowchart LR
+    subgraph "Document Ingestion"
+        A1[Raw Documents<br/>.doc, .pdf, .docx] --> B1[Text Extraction<br/>rag_ingest.py]
+        B1 --> C1[Chunking<br/>512-token chunks]
+        C1 --> D1[Embedding Generation<br/>Dense Embeddings]
+        D1 --> E1[Vector Storage<br/>ChromaDB]
+    end
+
+    subgraph "Query Processing"
+        F1[User Query<br/>Contract Field Input] --> G1[Retriever<br/>rag_retriever.py]
+        G1 --> H1[Similarity Matching<br/>Hybrid or Dense Search]
+        H1 --> I1[Context Retrieval<br/>Top-K Relevant Chunks]
+    end
+
+    subgraph "AI Generation"
+        J1[LLM Engine<br/>llm_engine.py] --> K1[Prompt Engineering<br/>prompts.py]
+        K1 --> L1[Risk Analysis<br/>cross_clause_rules.py]
+        L1 --> M1[Contract Generation<br/>Gemini]
+    end
+
+    E1 --> G1
+    I1 --> K1
+    M1 --> N1[Final Contract<br/>With Risk Assessment]
+
+    style A1 fill:#e3f2fd
+    style F1 fill:#f3e5f5
+    style J1 fill:#e8f5e8
+    style N1 fill:#fff3e0,stroke:#f57c00,stroke-width:3px

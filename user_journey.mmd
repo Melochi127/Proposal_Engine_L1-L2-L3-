@@ -1,0 +1,33 @@
+flowchart TD
+    Start([Start]) --> Level{Choose Level}
+
+    Level -->|L1 Quick| L1_Form[L1: Quick Form<br/>8 Fields<br/>Fast Generation]
+    Level -->|L2 Standard| L2_Form[L2: Standard Form<br/>15 Fields<br/>Balanced]
+    Level -->|L3 Dark Fibre| L3_Start[L3: 8-Phase Wizard<br/>36 Fields<br/>Comprehensive]
+
+    L3_Start --> P1[Phase 1: Provider Details<br/>Company Name, Address, Registration No, Notice Email]
+    P1 --> P2[Phase 2: Customer Details<br/>Company Name, Address, Registration No, Notice Email]
+    P2 --> P3[Phase 3: Agreement Terms<br/>Effective Date, Governing Law, Dispute Resolution]
+    P3 --> P4[Phase 4: Wayleave & Access<br/>Access Rights, Installation, Maintenance, Permissions, Route, Timeline, Costs, Conditions]
+    P4 --> P5[Phase 5: Commercials<br/>Pricing, Payment Terms, Indexation, Minimum Term, Renewal, Termination Fees]
+    P5 --> P6[Phase 6: Liability<br/>Provider Liability, Customer Liability, Indemnity, Insurance]
+    P6 --> P7[Phase 7: Termination<br/>Termination Rights, Notice Periods, Consequences]
+    P7 --> P8[Phase 8: Technical SLAs<br/>Service Levels, Performance Metrics, Monitoring, Penalties]
+
+    P8 --> AI_Process[AI Processing<br/>Risk Analysis, RAG Retrieval, LLM Generation, Cross-Clause Validation]
+    AI_Process --> Output[Final Output<br/>Framework Agreement, Risk Assessment, Compliance Check]
+
+    L1_Form --> AI_Process_L1[Quick AI Generation]
+    L2_Form --> AI_Process_L2[Standard AI Generation]
+
+    AI_Process_L1 --> Output_L1[Quick Proposal]
+    AI_Process_L2 --> Output_L2[Standard Proposal]
+
+    Output --> End([Complete])
+    Output_L1 --> End
+    Output_L2 --> End
+
+    style Start fill:#4CAF50,color:white
+    style End fill:#4CAF50,color:white
+    style L3_Start fill:#2196F3,color:white
+    style AI_Process fill:#FF9800,color:white

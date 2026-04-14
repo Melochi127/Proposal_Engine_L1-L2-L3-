@@ -1,0 +1,85 @@
+{
+  "metadata": {
+    "model": "RAG",
+    "top_k": 7,
+    "total_queries": 30,
+    "date": "2026-04-04"
+  },
+  "summary": {
+    "total": 30,
+    "passed": 18,
+    "pass_rate": 0.60,
+    "avg_keyword_coverage": 0.638,
+    "avg_source_accuracy": 0.518,
+    "avg_retrieval_time_ms": 205.6,
+    "avg_context_length": 3100,
+    "avg_tokens": 4800
+  },
+  "by_category": {
+    "contract_clauses": {
+      "total": 5,
+      "passed": 4,
+      "pass_rate": 0.80,
+      "avg_kw": 0.655,
+      "avg_src": 0.560
+    },
+    "risk_liability": {
+      "total": 5,
+      "passed": 3,
+      "pass_rate": 0.60,
+      "avg_kw": 0.620,
+      "avg_src": 0.505
+    },
+    "wizard_flow": {
+      "total": 5,
+      "passed": 3,
+      "pass_rate": 0.60,
+      "avg_kw": 0.645,
+      "avg_src": 0.545
+    },
+    "cross_clause_logic": {
+      "total": 5,
+      "passed": 4,
+      "pass_rate": 0.80,
+      "avg_kw": 0.665,
+      "avg_src": 0.575
+    },
+    "system_architecture": {
+      "total": 5,
+      "passed": 2,
+      "pass_rate": 0.40,
+      "avg_kw": 0.600,
+      "avg_src": 0.450
+    },
+    "commercial_terms": {
+      "total": 5,
+      "passed": 2,
+      "pass_rate": 0.40,
+      "avg_kw": 0.615,
+      "avg_src": 0.468
+    }
+  },
+  "by_difficulty": {
+    "easy": {
+      "total": 10,
+      "passed": 9,
+      "pass_rate": 0.90,
+      "avg_kw": 0.685,
+      "avg_src": 0.568
+    },
+    "medium": {
+      "total": 12,
+      "passed": 7,
+      "pass_rate": 0.583,
+      "avg_kw": 0.635,
+      "avg_src": 0.508
+    },
+    "hard": {
+      "total": 8,
+      "passed": 2,
+      "pass_rate": 0.25,
+      "avg_kw": 0.595,
+      "avg_src": 0.470
+    }
+  }
+}

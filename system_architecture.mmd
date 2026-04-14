@@ -1,0 +1,67 @@
+graph TB
+    subgraph "User Interface Layer"
+        A[User] --> B[Streamlit Web App]
+        B --> C{Select Level}
+        C -->|L1 Quick| D[L1: 8-Field Form]
+        C -->|L2 Standard| E[L2: 15-Field Form]
+        C -->|L3 Dark Fibre| F[L3: 5-Phase Wizard]
+    end
+
+    F --> G[Phase 1: Provider Details<br/>4 fields]
+    G --> H[Phase 2: Customer Details<br/>4 fields]
+    H --> I[Phase 3: Agreement Terms<br/>3 fields]
+    I --> J[Phase 4: Wayleave & Access<br/>8 fields]
+    J --> K[Phase 5: Commercials<br/>6 fields]
+    K --> L[Phase 6: Liability<br/>4 fields]
+    L --> M[Phase 7: Termination<br/>3 fields]
+    M --> N[Phase 8: Technical SLAs<br/>4 fields]
+
+    subgraph "Core Processing Layer"
+        O[DarkFibreAgent<br/>proposal_agent.py]
+        P[Session Manager<br/>agent_state.py]
+        Q[Phase Config<br/>phases.py]
+        R[Level Config<br/>levels.py]
+    end
+
+    subgraph "AI/ML Layer"
+        S[LLM Engine<br/>llm_engine.py<br/>Google Gemini]
+        T[RAG Retriever<br/>rag_retriever.py<br/>ChromaDB]
+        U[Prompts<br/>prompts.py]
+        V[Risk Analysis<br/>cross_clause_rules.py]
+    end
+
+    subgraph "Data Layer"
+        W[RAG Ingestion<br/>rag_ingest.py<br/>.doc/.pdf/.docx -> chunks -> embeddings]
+        X[Document Storage<br/>rag_data/]
+        Y[Proposal Storage<br/>storage.py<br/>JSON files]
+        Z[Vector Database<br/>ChromaDB]
+    end
+
+    D --> O
+    E --> O
+    N --> O
+
+    O --> P
+    O --> Q
+    O --> R
+
+    O --> S
+    S --> T
+    S --> U
+    S --> V
+
+    W --> X
+    W --> Z
+    T --> Z
+
+    O --> Y
+
+    classDef userInterface fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef processing fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef ai fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef data fill:#fff3e0,stroke:#e65100,stroke-width:2px
+
+    class A,B,C,D,E,F,G,H,I,J,K,L,M,N userInterface
+    class O,P,Q,R processing
+    class S,T,U,V ai
+    class W,X,Y,Z data

@@ -179,22 +179,50 @@ Make the executive summary compelling. Make the conclusion urge the client to ac
 L3_GENERATE = """Generate a complete Dark Fibre Framework Agreement.
 
 PARTIES:
-Provider: {provider_details}
-Customer: {customer_details}
+Provider Name: {provider_name}
+Provider Address: {provider_address}
+Provider Company No: {provider_company_no}
+Provider Notice Email: {provider_notice_email}
+
+Customer Name: {customer_name}
+Customer Address: {customer_address}
+Customer Company No: {customer_company_no}
+Customer Notice Email: {customer_notice_email}
+
 Effective Date: {effective_date}
-Notice emails: {notice_emails}
+Governing Law: {governing_law}
+Dispute Resolution: {dispute_resolution}
 
-WAYLEAVE & ACCESS: {wayleave_and_access}
-EQUIPMENT: {equipment_setup}
+SERVICES & ROUTE:
+Fibre Route: {fibre_route}
+Fibre Specification: {fibre_specification}
+RFS Date: {rfs_date}
 
-COMMERCIALS: {pricing_structure}
-PROTECTIONS: {commercial_protections}
+WAYLEAVE & ACCESS:
+Wayleave Responsibility: {wayleave_responsibility}
+High Risk Sites: {high_risk_sites}
+Access Notice Days: {access_notice_days}
+Equipment Ownership: {equipment_ownership}
 
-LIABILITY: {liability_caps}
-TERMINATION: {termination_rules}
+COMMERCIALS:
+IRU Charge (upfront): {iru_charge}
+O&M Charge (annual): {om_charge}
+Contract Term: {contract_term_months} months
+Indexation Model: {indexation_model}
+Payment Terms: {payment_terms_days} days
 
-SLA STRUCTURE: {sla_structure}
-SLA PENALTIES: {sla_penalties}
+LIABILITY & TERMINATION:
+General Liability Cap: {general_liability_cap}
+Order Liability Cap: {order_liability_cap}
+Early Termination Fee: {early_termination_fee}
+Breach Cure Days: {breach_cure_days}
+Force Majeure Termination Days: {force_majeure_days}
+
+TECHNICAL SLAs:
+Service Model: {service_model}
+TTTR (Target Time to Repair): {tttr_hours}
+Service Credit Cap: {service_credit_cap}
+NOC Contact: {noc_contact}
 
 DEFAULT VALUES APPLIED WHERE USER ACCEPTED DEFAULTS:
 {applied_defaults}

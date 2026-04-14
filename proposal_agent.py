@@ -110,6 +110,18 @@ class Agent:
         except:
             resp = "Got it — noted."
 
+        # Limit clarification to 1 attempt per field
+        field_key = field["key"]
+        if needs_clarify:
+            if s.clarify_counts.get(field_key, 0) >= 1:
+                # Already clarified once — force advance
+                needs_clarify = False
+                resp = resp.rstrip("?").rstrip() + ". Got it, moving on!"
+            else:
+                s.clarify_counts[field_key] = s.clarify_counts.get(field_key, 0) + 1
+        else:
+            s.clarify_counts[field_key] = 0
+
         # Append risk warnings to response
         if new_warnings:
             resp += "\n\n" + "\n".join(w["msg"] for w in new_warnings)
@@ -175,7 +187,44 @@ class Agent:
         except Exception as e:
             return f"[RAG Error: {e}]"
 
+    def _required_fields(self, s):
+        if s.level in ("L1", "L2"):
+            return [f["key"] for f in get_l1l2_fields(s.level) if f.get("required")]
+        keys = []
+        for phase_key in get_all_phase_keys():
+            for f in get_phase_fields(phase_key):
+                if f.get("required"):
+                    keys.append(f["key"])
+        return keys
+
+    def _is_invalid_value(self, value):
+        if value is None:
+            return True
+        if isinstance(value, str):
+            clean = value.strip().lower()
+            if clean in ("", "[tbc]", "[to be confirmed]", "[to be confirmed]", "[defaults applied]"):
+                return True
+            if "[tbc]" in clean or "[to be confirmed]" in clean:
+                return True
+        return False
+
+    def _missing_required_fields(self, s):
+        missing = []
+        for key in self._required_fields(s):
+            v = s.slots.get(key)
+            if self._is_invalid_value(v):
+                missing.append(key)
+        return missing
+
     def generate(self, s):
+        missing = self._missing_required_fields(s)
+        if missing:
+            field_list = ", ".join(missing)
+            return (
+                "[Validation Error] Cannot generate agreement. "
+                f"The following required fields are missing or placeholders: {field_list}. "
+                "Please complete all required fields before generation."
+            )
         if s.level == "L3":
             return self.generate_agreement(s)
         return self.generate_l1l2(s)
@@ -221,20 +270,41 @@ class Agent:
         ctx = ctx or ""
         applied = "\n".join(f"- {k}: {v}" for k, v in STANDARD_DEFAULTS.items()
                            if k not in s.slots or not s.slots.get(k))
+        g = s.slots.get
         try:
             agr = invoke_llm(L3_GENERATE.format(
-                provider_details=s.slots.get("provider_details", "[TBC]"),
-                customer_details=s.slots.get("customer_details", "[TBC]"),
-                effective_date=s.slots.get("effective_date", "Date of last signature"),
-                notice_emails=s.slots.get("notice_emails", "[TBC]"),
-                wayleave_and_access=s.slots.get("wayleave_and_access", "A — Customer responsible"),
-                equipment_setup=s.slots.get("equipment_setup", "Supplier retains, defaults"),
-                pricing_structure=s.slots.get("pricing_structure", "[TBC]"),
-                commercial_protections=s.slots.get("commercial_protections", "RPI, 30 days, pass-through"),
-                liability_caps=s.slots.get("liability_caps", "Standard defaults"),
-                termination_rules=s.slots.get("termination_rules", "Standard defaults"),
-                sla_structure=s.slots.get("sla_structure", "B — Build + Warranty, 12hr, exclusions"),
-                sla_penalties=s.slots.get("sla_penalties", "Standard defaults"),
+                provider_name=g("provider_name", "[TBC]"),
+                provider_address=g("provider_address", "[TBC]"),
+                provider_company_no=g("provider_company_no", "[TBC]"),
+                provider_notice_email=g("provider_notice_email", "[TBC]"),
+                customer_name=g("customer_name", "[TBC]"),
+                customer_address=g("customer_address", "[TBC]"),
+                customer_company_no=g("customer_company_no", "[TBC]"),
+                customer_notice_email=g("customer_notice_email", "[TBC]"),
+                effective_date=g("effective_date", "Date of last signature"),
+                governing_law=g("governing_law", "English Law, Courts of England and Wales"),
+                dispute_resolution=g("dispute_resolution", "Expert Determination, then Courts of England and Wales"),
+                fibre_route=g("fibre_route", "[TBC]"),
+                fibre_specification=g("fibre_specification", "G.652D single-mode dark fibre"),
+                rfs_date=g("rfs_date", "[TBC]"),
+                wayleave_responsibility=g("wayleave_responsibility", "Customer"),
+                high_risk_sites=g("high_risk_sites", "None identified"),
+                access_notice_days=g("access_notice_days", "5 business days"),
+                equipment_ownership=g("equipment_ownership", "Supplier retains ownership"),
+                iru_charge=g("iru_charge", "[TBC]"),
+                om_charge=g("om_charge", "[TBC]"),
+                contract_term_months=g("contract_term_months", "[TBC]"),
+                indexation_model=g("indexation_model", "RPI (annual increase)"),
+                payment_terms_days=g("payment_terms_days", "30"),
+                general_liability_cap=g("general_liability_cap", "£50,000"),
+                order_liability_cap=g("order_liability_cap", "100% of annual fees for that Order"),
+                early_termination_fee=g("early_termination_fee", "100% of remaining minimum period fees"),
+                breach_cure_days=g("breach_cure_days", "30"),
+                force_majeure_days=g("force_majeure_days", "180"),
+                service_model=g("service_model", "Build + 12-month Warranty"),
+                tttr_hours=g("tttr_hours", "12 hours"),
+                service_credit_cap=g("service_credit_cap", "50% of annual O&M"),
+                noc_contact=g("noc_contact", "[TBC]"),
                 applied_defaults=applied, rag_context=ctx),
                 task="agreement", system=L3_SYSTEM)
             if not agr or not agr.strip():

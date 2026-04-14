@@ -3,6 +3,17 @@
 **AI-Guided Legal-Grade Contract Wizard with RAG/CRAG Evaluation Framework**
 RAG + CRAG + LangChain + Google Gemini + ChromaDB + Streamlit
 
+## ⚖️ GDPR Compliance Notice
+
+**Sensitive Data Excluded from Repository**: This repository does not include proprietary company documents or vectorized embeddings (`rag_data/`, `chroma_db/`, `chroma_dark_fibre/`) due to **GDPR compliance requirements**. These files contain:
+- Company proprietary framework agreements and templates
+- Confidential internal documentation (PRDs, system instructions)
+- Sensitive embeddings and vector indices of the above
+
+**Local Setup**: To run this system, you must supply your own reference documents or use the integration stubs. See [INSTALLATION.md](INSTALLATION.md) for setup instructions. The codebase is fully functional—only the specific reference documents are excluded for compliance.
+
+---
+
 ## Architecture Overview
 
 ```

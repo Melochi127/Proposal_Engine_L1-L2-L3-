@@ -3,6 +3,11 @@ venv/
 __pycache__/
 *.pyc
 .env
-rag_data/chroma_db/
-rag_data/bm25_chunks.pkl
+
+# GDPR Compliance: Exclude sensitive data and embeddings
+# Raw company data, vectorized content, and database files
+rag_data/
+chroma_db/
+chroma_dark_fibre/
 *.sqlite3
+*.pkl

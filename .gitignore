@@ -5,9 +5,16 @@ __pycache__/
 .env
 
 # GDPR Compliance: Exclude sensitive data and embeddings
-# Raw company data, vectorized content, and database files
-rag_data/
+# Only exclude: Legal templates, SLA/Pricing docs, proprietary business rules, vector databases
 chroma_db/
 chroma_dark_fibre/
-*.sqlite3
-*.pkl
+rag_data/chroma_db/
+rag_data/bm25_chunks.pkl
+rag_data/*.sqlite3
+
+# Exclude sensitive proprietary documents (SLA, Pricing, Legal Templates)
+rag_data/1.\ Dark\ Fibre\ Framework\ Agreement\ Template*
+rag_data/2.\ Level\ 3\ Intake\ Questionnaire*
+rag_data/7.\ Clause\ Intelligence*
+rag_data/8.\ 25\ high-value\ cross-clause*
+rag_data/9.\ Telecom\ Contract\ Risk*

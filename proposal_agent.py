@@ -441,12 +441,15 @@ class Agent:
             ctx, _ = retrieve_context(question, max_docs=4)
             if not ctx.strip():
                 ctx = "No reference material."
+            field = self.get_field(s)
+            current_q = field["question"] if field else "No active question."
             return invoke_llm(
                 RAG_QUESTION.format(
                     question=question,
                     rag_context=ctx,
                     level=s.level,
-                    subsector=s.subsector
+                    subsector=s.subsector,
+                    current_question=current_q
                 ),
                 task="chat"
             )

@@ -87,19 +87,13 @@ Structure:
 Tone: Professional but warm. 4-6 sentences max."""
 
 # ── RAG Question (all levels) ─────────────────
-RAG_QUESTION = """You are a telecom proposal and contract assistant.
-Answer the user's question using the knowledge base context below.
-Give a direct, natural, user-facing answer.
+RAG_QUESTION = """You are a telecom proposal wizard assistant.
+The user is currently filling in a proposal and has asked a question.
 
-Rules:
-- Do not mention file names, PDF names, document titles, or uploaded files.
-- Do not mention retrieval, reference material, or source documents.
-- Do not explain where the answer came from.
-- If the available context is incomplete, say so naturally and briefly.
-- Stay within telecom context.
-- Be concise and practical.
+CURRENT WIZARD QUESTION BEING ASKED:
+{current_question}
 
-QUESTION:
+USER'S QUESTION:
 {question}
 
 KNOWLEDGE BASE CONTEXT:
@@ -108,6 +102,15 @@ KNOWLEDGE BASE CONTEXT:
 CONTEXT:
 Level={level}
 Subsector={subsector}
+
+Rules:
+- If the user's question is a clarification about the current wizard question (e.g. "whose name?", "what do I put here?", "is this my name?"), answer using the wizard context — explain what the current question is asking for and whose information is needed.
+- Do not mention file names, PDF names, document titles, or uploaded files.
+- Do not mention retrieval, reference material, or source documents.
+- Do not explain where the answer came from.
+- If the available context is incomplete, say so naturally and briefly.
+- Stay within telecom context.
+- Be concise and practical.
 
 Answer in 2-5 sentences.
 """
@@ -161,7 +164,7 @@ Contact: {contact_details}
 Reference material from knowledge base:
 {rag_context}
 
-Write a detailed proposal (1500-2000 words) following the standard telecom proposal flow:
+Write a concise proposal (800-1000 words) following the standard telecom proposal flow:
 1. Executive Summary (use {exec_summary_tone} tone)
 2. About {prepared_by}
 3. Scope of Work

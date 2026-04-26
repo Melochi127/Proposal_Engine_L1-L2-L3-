@@ -115,7 +115,10 @@ def invoke_llm(prompt: str, task: str = "chat", system: Optional[str] = None) ->
             HumanMessage(content=prompt),
         ]
         response = get_llm(task).invoke(messages)
-        return response.content.strip()
+        content = response.content
+        if isinstance(content, list):
+            content = " ".join(str(c) for c in content)
+        return content.strip()
     except Exception as e:
         error_msg = f"[LLM Error: {str(e)[:100]}]"
         return error_msg
@@ -142,7 +145,10 @@ def invoke_simple(prompt: str, task: str = "chat") -> str:
     """
     try:
         response = get_llm(task).invoke(prompt)
-        return response.content.strip()
+        content = response.content
+        if isinstance(content, list):
+            content = " ".join(str(c) for c in content)
+        return content.strip()
     except Exception as e:
         error_msg = f"[LLM Error: {str(e)[:100]}]"
         return error_msg

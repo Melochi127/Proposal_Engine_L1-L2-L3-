@@ -4,6 +4,7 @@ Builds on hybrid BM25 + MiniLM with corrective filtering using Gemini.
 """
 
 import os
+import pickle
 from functools import lru_cache
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -20,7 +21,6 @@ def check_kb():
     if bm25_exists:
         try:
             with open(BM25_STORE, "rb") as f:
-                import pickle
                 chunks = pickle.load(f)
                 count = len(chunks)
         except Exception:
@@ -42,7 +42,6 @@ def _load_bm25_chunks():
     if not os.path.exists(BM25_STORE):
         return []
     with open(BM25_STORE, "rb") as f:
-        import pickle
         return pickle.load(f)
 
 
@@ -58,8 +57,7 @@ def retrieve_hybrid(query, top_k=5):
     """Hybrid retrieval: BM25 + Vector, fused."""
     bm25_chunks = _load_bm25_chunks()
     if bm25_chunks:
-        bm25_texts = [doc.page_content for doc in bm25_chunks]
-        bm25_retriever = BM25Retriever.from_texts(bm25_texts)
+        bm25_retriever = BM25Retriever.from_documents(bm25_chunks)
         bm25_results = bm25_retriever.invoke(query)[:top_k]
     else:
         bm25_results = []

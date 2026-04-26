@@ -7,10 +7,8 @@ Run: streamlit run app.py
 import streamlit as st
 from datetime import datetime
 from proposal_agent import Agent
-from levels import (
-    get_level, get_l1l2_fields, get_l3_phase, get_l3_phase_fields,
-    get_l3_phase_keys,
-)
+from levels import get_level, get_l1l2_fields
+from phases import get_phase, get_phase_fields, get_all_phase_keys
 from rag_retriever import check_kb
 from rag_ingest import run_ingestion
 from storage import save_proposal, list_proposals, load_proposal, delete_proposal
@@ -324,7 +322,7 @@ if st.session_state.pg == "home":
         st.markdown("""
         <div class="card">
             <h3 style="margin-top: 0; color: #0f172a;">🔌 Level 3 — Dark Fibre</h3>
-            <p style="color: #64748b; margin-bottom: 16px;"><strong>12 screens</strong> • under 2 min (with defaults)</p>
+            <p style="color: #64748b; margin-bottom: 16px;"><strong>8 phases · 32 questions</strong> • ~5 min (type 'defaults' to go fast)</p>
             <p style="color: #475569; margin-bottom: 16px;">Contract-grade 20-clause agreement + Risk Summary. Enterprise-level infrastructure contracts.</p>
         </div>
         """, unsafe_allow_html=True)
@@ -341,8 +339,7 @@ if st.session_state.pg == "home":
             st.rerun()
 
     st.markdown("---")
-    st.markdown("---")
-    
+
     # Footer with tech stack
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -507,10 +504,10 @@ elif st.session_state.pg in ("wizard", "review"):
             st.markdown("### 📋 Data Summary")
 
             if s.level == "L3":
-                for pk in get_l3_phase_keys():
-                    phase = get_l3_phase(pk)
+                for pk in get_all_phase_keys():
+                    phase = get_phase(pk)
                     st.markdown(f"**{phase['title']}**")
-                    for ff in get_l3_phase_fields(pk):
+                    for ff in get_phase_fields(pk):
                         v = s.slots.get(ff["key"], "")
                         if v and "[" not in v and "Defaults" not in v:
                             st.markdown(f"- {ff['key'].replace('_', ' ').title()}: {v[:200]}")
@@ -598,10 +595,10 @@ elif st.session_state.pg in ("wizard", "review"):
 
             if s and s.slots:
                 if s.level == "L3":
-                    for pk in get_l3_phase_keys():
-                        phase = get_l3_phase(pk)
+                    for pk in get_all_phase_keys():
+                        phase = get_phase(pk)
                         has_data = False
-                        for ff in get_l3_phase_fields(pk):
+                        for ff in get_phase_fields(pk):
                             v = s.slots.get(ff["key"])
                             if v and v.strip() and "[" not in v and "Defaults" not in v:
                                 if not has_data:

@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Fibre System - SVG Flowcharts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, #f5f7fb 0%, #e8eef5 100%);
+            color: #2c3e50;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #7b68ee 0%, #9370db 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        header p {
+            font-size: 14px;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e8e8e8;
+            background: #f8f9fb;
+            overflow-x: auto;
+        }
+        .tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+        .tabs::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+        .tabs::-webkit-scrollbar-thumb {
+            background: #c0c0c0;
+            border-radius: 2px;
+        }
+        .tab-button {
+            flex: 1;
+            min-width: 140px;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #7a8fa3;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 3px solid transparent;
+            position: relative;
+            white-space: nowrap;
+        }
+        .tab-button:hover {
+            background: rgba(123, 104, 238, 0.05);
+            color: #5a6f8f;
+        }
+        .tab-button.active {
+            color: #7b68ee;
+            border-bottom-color: #7b68ee;
+            background: #fafbfd;
+        }
+        .tab-content {
+            display: none;
+            padding: 40px;
+            animation: fadeIn 0.4s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-content h2 {
+            color: #2c3e50;
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .flowchart-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #7b68ee;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8dff5;
+        }
+        .flowchart-group {
+            margin-bottom: 40px;
+        }
+        svg {
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fafbfd 0%, #f5f7fa 100%);
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 32px;
+            padding: 24px;
+            background: linear-gradient(135deg, #f8f9fb 0%, #f5f7fa 100%);
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+        .legend-color {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+            flex-shrink: 0;
+        }
+        .legend-item span {
+            font-size: 13px;
+            color: #5a6f8f;
+            font-weight: 500;
+        }
+        .description {
+            font-size: 13px;
+            color: #5a6f8f;
+            margin: 20px 0;
+            padding: 16px;
+            background: linear-gradient(135deg, #ede7f6 0%, #f3e5f5 100%);
+            border-left: 4px solid #9370db;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dark Fibre Proposal Engine</h1>
+            <p>System Flowcharts - SVG Format (No Rendering Issues)</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab(0)">User Journey</button>
+            <button class="tab-button" onclick="showTab(1)">RAG System</button>
+            <button class="tab-button" onclick="showTab(2)">Risk Detection</button>
+            <button class="tab-button" onclick="showTab(3)">Generation Pipeline</button>
+            <button class="tab-button" onclick="showTab(4)">State Machine</button>
+        </div>
+
+        <!-- TAB 1: USER JOURNEY -->
+        <div class="tab-content active">
+            <h2>User Proposal Generation Journey</h2>
+            <div class="description">
+                Complete flow from app startup through proposal generation, including question answering loop and final delivery.
+            </div>
+
+            <svg viewBox="0 0 800 1200" width="800" height="1200">
+                <defs>
+                    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
+                <!-- Title -->
+                <text x="400" y="30" font-size="18" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    USER JOURNEY - COMPLETE FLOW
+                </text>
+
+                <!-- Start -->
+                <rect x="300" y="60" width="200" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow)"/>
+                <text x="400" y="90" font-size="14" font-weight="bold" text-anchor="middle" fill="white">User Opens App</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="110" x2="400" y2="140" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Select Level -->
+                <rect x="250" y="140" width="300" height="60" fill="#8ab4d5" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="165" font-size="13" font-weight="bold" text-anchor="middle" fill="white">SELECT PROPOSAL LEVEL</text>
+                <text x="400" y="185" font-size="11" text-anchor="middle" fill="white">L1 (8Q) | L2 (15Q) | L3 (35+Q)</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="200" x2="400" y2="230" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Create Session -->
+                <rect x="250" y="230" width="300" height="60" fill="#d9b896" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="255" font-size="13" font-weight="bold" text-anchor="middle" fill="white">CREATE SESSION</text>
+                <text x="400" y="275" font-size="11" text-anchor="middle" fill="white">session_id = df_YYYYMMDDhhmmss</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="290" x2="400" y2="320" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Greeting -->
+                <rect x="250" y="320" width="300" height="50" fill="#b3a6be" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="350" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Display Greeting</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="370" x2="400" y2="400" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- LOOP START -->
+                <rect x="200" y="400" width="400" height="50" fill="#c9a5b5" stroke="#9f7d8f" stroke-width="2" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="430" font-size="14" font-weight="bold" text-anchor="middle" fill="white">LOOP: Answer Questions</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="450" x2="400" y2="480" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Display Question -->
+                <rect x="250" y="480" width="300" height="50" fill="#8ab4d5" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="510" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Display Question</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="530" x2="400" y2="560" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- User Input -->
+                <rect x="250" y="560" width="300" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="590" font-size="13" font-weight="bold" text-anchor="middle" fill="white">User Input / Command</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="610" x2="400" y2="640" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Process & Check Risks -->
+                <rect x="150" y="640" width="500" height="70" fill="#d9a896" stroke="#b08070" stroke-width="1.5" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="665" font-size="13" font-weight="bold" text-anchor="middle" fill="white">PROCESS ANSWER & CHECK RISKS</text>
+                <text x="400" y="685" font-size="11" text-anchor="middle" fill="white">Store • Fill defaults • Check 25 rules • Invoke LLM</text>
+                <text x="400" y="700" font-size="11" text-anchor="middle" fill="white">Parse ADVANCE/CLARIFY signal</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="710" x2="400" y2="740" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Display Response -->
+                <rect x="200" y="740" width="400" height="60" fill="#b3a6be" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="765" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Display AI Response</text>
+                <text x="400" y="785" font-size="11" text-anchor="middle" fill="white">Include: Acknowledgment + Risk Warnings</text>
+
+                <!-- Arrow down -->
+                <line x1="400" y1="800" x2="400" y2="830" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- Decision: All Done? -->
+                <polygon points="400,830 480,880 400,930 320,880" fill="#d9c89c" stroke="#b09070" stroke-width="1.5" filter="url(#softShadow)"/>
+                <text x="400" y="885" font-size="12" font-weight="bold" text-anchor="middle" fill="#5a6f8f">ALL DONE?</text>
+
+                <!-- No arrow (back to loop) -->
+                <line x1="320" y1="880" x2="150" y2="880" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="150" y1="880" x2="150" y2="425" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="150" y1="425" x2="200" y2="425" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <text x="100" y="650" font-size="11" font-weight="bold" fill="#8fa6bb">NO</text>
+
+                <!-- Yes arrow -->
+                <line x1="400" y1="930" x2="400" y2="960" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+                <text x="420" y="950" font-size="11" font-weight="bold" fill="#7fb3b8">YES</text>
+
+                <!-- Generate -->
+                <rect x="250" y="960" width="300" height="50" fill="#8abcc9" stroke="#6b94a0" stroke-width="1.5" rx="5" filter="url(#softShadow)"/>
+                <text x="400" y="990" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Generate Proposal</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="1010" x2="400" y2="1040" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+                <!-- End -->
+                <rect x="300" y="1040" width="200" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow)"/>
+                <text x="400" y="1070" font-size="14" font-weight="bold" text-anchor="middle" fill="white">✓ COMPLETE</text>
+
+                <!-- Arrow marker definition -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#8fa6bb" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #98d8c8;"></div>
+                    <span>Start/End States</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #8ab4d5;"></div>
+                    <span>Display Steps</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #d9a896;"></div>
+                    <span>Processing</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #c9a5b5;"></div>
+                    <span>Loops</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: RAG SYSTEM -->
+        <div class="tab-content">
+            <h2>RAG Retrieval - Hybrid Search</h2>
+            <div class="description">
+                Combines BM25 keyword search (60%) with semantic embeddings (40%) using reciprocal rank fusion to find relevant knowledge base documents.
+            </div>
+
+            <svg viewBox="0 0 900 700" width="900" height="700">
+                <defs>
+                    <filter id="softShadow2" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
+                <!-- Title -->
+                <text x="450" y="30" font-size="18" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    RAG RETRIEVAL - HYBRID SEARCH PIPELINE
+                </text>
+
+                <!-- Query -->
+                <rect x="350" y="60" width="200" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow2)"/>
+                <text x="450" y="90" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Query from LLM</text>
+
+                <!-- Arrow down -->
+                <line x1="450" y1="110" x2="450" y2="140" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+                <!-- Split into 3 paths -->
+                <line x1="450" y1="140" x2="150" y2="200" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="450" y1="140" x2="450" y2="200" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="450" y1="140" x2="750" y2="200" stroke="#8fa6bb" stroke-width="2"/>
+
+                <!-- BM25 Path -->
+                <rect x="50" y="200" width="200" height="60" fill="#d9b896" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="150" y="225" font-size="12" font-weight="bold" text-anchor="middle" fill="white">BM25 SEARCH</text>
+                <text x="150" y="245" font-size="11" text-anchor="middle" fill="white">Keyword-based (60%)</text>
+
+                <!-- Dense Path -->
+                <rect x="350" y="200" width="200" height="60" fill="#8ab4d5" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="450" y="225" font-size="12" font-weight="bold" text-anchor="middle" fill="white">DENSE SEARCH</text>
+                <text x="450" y="245" font-size="11" text-anchor="middle" fill="white">Semantic (40%)</text>
+
+                <!-- CRAG Path -->
+                <rect x="650" y="200" width="200" height="60" fill="#b3a6be" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="750" y="225" font-size="12" font-weight="bold" text-anchor="middle" fill="white">CRAG VALIDATION</text>
+                <text x="750" y="245" font-size="11" text-anchor="middle" fill="white">Relevance check</text>
+
+                <!-- Arrows down from paths -->
+                <line x1="150" y1="260" x2="150" y2="300" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <line x1="450" y1="260" x2="450" y2="300" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <line x1="750" y1="260" x2="750" y2="300" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+                <!-- Results boxes -->
+                <rect x="75" y="300" width="150" height="60" fill="#e5d9d1" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="150" y="320" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Top 8 docs</text>
+                <text x="150" y="337" font-size="10" text-anchor="middle" fill="#5a6f8f">with scores</text>
+
+                <rect x="375" y="300" width="150" height="60" fill="#d4e5f0" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="450" y="320" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Top 8 docs</text>
+                <text x="450" y="337" font-size="10" text-anchor="middle" fill="#5a6f8f">with similarities</text>
+
+                <rect x="675" y="300" width="150" height="60" fill="#e0d9e8" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="750" y="320" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Validate</text>
+                <text x="750" y="337" font-size="10" text-anchor="middle" fill="#5a6f8f">confidence >0.7</text>
+
+                <!-- Merge arrows -->
+                <line x1="150" y1="360" x2="450" y2="410" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="450" y1="360" x2="450" y2="410" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="750" y1="360" x2="450" y2="410" stroke="#8fa6bb" stroke-width="2"/>
+
+                <!-- Fusion -->
+                <rect x="300" y="410" width="300" height="80" fill="#c9a5b5" stroke="#9f7d8f" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="450" y="435" font-size="12" font-weight="bold" text-anchor="middle" fill="white">RECIPROCAL RANK FUSION</text>
+                <text x="450" y="455" font-size="11" text-anchor="middle" fill="white">merged_score = 0.6 × bm25_rank</text>
+                <text x="450" y="472" font-size="11" text-anchor="middle" fill="white">+ 0.4 × dense_rank</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="490" x2="450" y2="520" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+                <!-- Final sorting -->
+                <rect x="300" y="520" width="300" height="60" fill="#8abcc9" stroke="#6b94a0" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="450" y="545" font-size="12" font-weight="bold" text-anchor="middle" fill="white">SORT & DEDUPLICATE</text>
+                <text x="450" y="565" font-size="11" text-anchor="middle" fill="white">Return top 4 documents</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="580" x2="450" y2="610" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+                <!-- Context -->
+                <rect x="300" y="610" width="300" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow2)"/>
+                <text x="450" y="640" font-size="12" font-weight="bold" text-anchor="middle" fill="white">✓ CONTEXT READY FOR LLM</text>
+
+                <defs>
+                    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#8fa6bb" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #d9b896;"></div>
+                    <span>Keyword Search (BM25)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #8ab4d5;"></div>
+                    <span>Dense Search (Semantic)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #c9a5b5;"></div>
+                    <span>Fusion & Combining</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: RISK DETECTION -->
+        <div class="tab-content">
+            <h2>Risk Detection - Cross-Clause Analysis</h2>
+            <div class="description">
+                Automatically checks 25 business rules across all contract clauses to detect critical, high, and medium-level risks.
+            </div>
+
+            <svg viewBox="0 0 800 900" width="800" height="900">
+                <defs>
+                    <filter id="softShadow3" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
+                <!-- Title -->
+                <text x="400" y="30" font-size="18" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    RISK DETECTION - 25 BUSINESS RULES
+                </text>
+
+                <!-- User Input -->
+                <rect x="300" y="60" width="200" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow3)"/>
+                <text x="400" y="90" font-size="13" font-weight="bold" text-anchor="middle" fill="white">User Enters Data</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="110" x2="400" y2="140" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead3)"/>
+
+                <!-- Check Risks -->
+                <rect x="300" y="140" width="200" height="50" fill="#d9a896" stroke="#b08070" stroke-width="1.5" rx="5" filter="url(#softShadow3)"/>
+                <text x="400" y="170" font-size="12" font-weight="bold" text-anchor="middle" fill="white">check_risks(slots)</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="190" x2="400" y2="220" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead3)"/>
+
+                <!-- CRITICAL -->
+                <rect x="50" y="220" width="180" height="120" fill="#d9a89f" stroke="#b08070" stroke-width="1.5" rx="5" filter="url(#softShadow3)"/>
+                <text x="140" y="245" font-size="12" font-weight="bold" text-anchor="middle" fill="white">CRITICAL 🚨</text>
+                <text x="140" y="265" font-size="10" text-anchor="middle" fill="white">R03: Long-term</text>
+                <text x="140" y="280" font-size="10" text-anchor="middle" fill="white">+ no indexation</text>
+                <text x="140" y="295" font-size="10" text-anchor="middle" fill="white">R07: No TTTR</text>
+                <text x="140" y="310" font-size="10" text-anchor="middle" fill="white">defined</text>
+
+                <!-- HIGH -->
+                <rect x="310" y="220" width="180" height="120" fill="#d9b896" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow3)"/>
+                <text x="400" y="245" font-size="12" font-weight="bold" text-anchor="middle" fill="white">HIGH ⚠️</text>
+                <text x="400" y="265" font-size="10" text-anchor="middle" fill="white">R01: Provider-led</text>
+                <text x="400" y="280" font-size="10" text-anchor="middle" fill="white">wayleaves</text>
+                <text x="400" y="295" font-size="10" text-anchor="middle" fill="white">R02: High-risk</text>
+                <text x="400" y="310" font-size="10" text-anchor="middle" fill="white">sites (railway)</text>
+
+                <!-- MEDIUM -->
+                <rect x="570" y="220" width="180" height="120" fill="#d9c89c" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow3)"/>
+                <text x="660" y="245" font-size="12" font-weight="bold" text-anchor="middle" fill="white">MEDIUM ⚠️</text>
+                <text x="660" y="265" font-size="10" text-anchor="middle" fill="white">R08: TTTR < 12h</text>
+                <text x="660" y="280" font-size="10" text-anchor="middle" fill="white">R09: 100%</text>
+                <text x="660" y="295" font-size="10" text-anchor="middle" fill="white">service credits</text>
+                <text x="660" y="310" font-size="10" text-anchor="middle" fill="white">at risk</text>
+
+                <!-- Arrows down -->
+                <line x1="140" y1="340" x2="140" y2="380" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead3)"/>
+                <line x1="400" y1="340" x2="400" y2="380" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead3)"/>
+                <line x1="660" y1="340" x2="660" y2="380" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead3)"/>
+
+                <!-- Collect -->
+                <text x="400" y="370" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">COLLECT INTO warnings[]</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="400" x2="400" y2="440" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead3)"/>
+
+                <!-- Recommendation -->
+                <rect x="150" y="440" width="500" height="80" fill="#e0d9e8" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow3)"/>
+                <text x="400" y="465" font-size="12" font-weight="bold" text-anchor="middle" fill="#5a6f8f">RECOMMENDATIONS GENERATED</text>
+                <text x="400" y="485" font-size="10" text-anchor="middle" fill="#5a6f8f">For each risk:</text>
+                <text x="400" y="502" font-size="10" text-anchor="middle" fill="#5a6f8f">Show rule ID + severity + actionable message</text>
+
+                <!-- Arrow -->
+                <line x1="400" y1="520" x2="400" y2="550" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead3)"/>
+
+                <!-- Display -->
+                <rect x="200" y="550" width="400" height="60" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="5" filter="url(#softShadow3)"/>
+                <text x="400" y="575" font-size="12" font-weight="bold" text-anchor="middle" fill="white">DISPLAY IN UI</text>
+                <text x="400" y="595" font-size="10" text-anchor="middle" fill="white">Alongside LLM response for user awareness</text>
+
+                <!-- Examples section -->
+                <text x="400" y="650" font-size="14" font-weight="bold" text-anchor="middle" fill="#7b68ee">
+                    Sample Risk Rules (out of 25)
+                </text>
+
+                <!-- Rules list -->
+                <rect x="50" y="670" width="700" height="200" fill="#f8f9fb" stroke="#e0e0e0" stroke-width="1" rx="5"/>
+                
+                <text x="70" y="690" font-size="11" font-weight="bold" fill="#d9a89f">🚨 R03 CRITICAL:</text>
+                <text x="90" y="707" font-size="10" fill="#5a6f8f">Term ≥ 3 years + no inflation indexation = financial risk exposure</text>
+                
+                <text x="70" y="730" font-size="11" font-weight="bold" fill="#d9b896">⚠️ R01 HIGH:</text>
+                <text x="90" y="747" font-size="10" fill="#5a6f8f">Provider-led wayleave applications = control & timeline risk to provider</text>
+                
+                <text x="70" y="770" font-size="11" font-weight="bold" fill="#d9b896">⚠️ R10 HIGH:</text>
+                <text x="90" y="787" font-size="10" fill="#5a6f8f">No early termination fee = unprotected exit from poor performing service</text>
+                
+                <text x="70" y="810" font-size="11" font-weight="bold" fill="#d9c89c">⚠️ R08 MEDIUM:</text>
+                <text x="90" y="827" font-size="10" fill="#5a6f8f">TTTR < 12 hours = aggressive SLA requiring high-cost spares inventory</text>
+
+                <defs>
+                    <marker id="arrowhead3" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#8fa6bb" />
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- TAB 4: GENERATION PIPELINE -->
+        <div class="tab-content">
+            <h2>Proposal Generation Pipeline</h2>
+            <div class="description">
+                Multi-level proposal generation with template selection based on proposal level and RAG context injection.
+            </div>
+
+            <svg viewBox="0 0 900 1000" width="900" height="1000">
+                <defs>
+                    <filter id="softShadow4" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
+                <!-- Title -->
+                <text x="450" y="30" font-size="18" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    PROPOSAL GENERATION - PIPELINE
+                </text>
+
+                <!-- All Slots Collected -->
+                <rect x="300" y="60" width="300" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow4)"/>
+                <text x="450" y="90" font-size="13" font-weight="bold" text-anchor="middle" fill="white">All Slots Collected</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="110" x2="450" y2="140" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- Validate -->
+                <rect x="300" y="140" width="300" height="50" fill="#d9b896" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="170" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Validate Required Fields</text>
+
+                <!-- Decision -->
+                <polygon points="450,200 520,250 450,300 380,250" fill="#d9c89c" stroke="#b09070" stroke-width="1.5" filter="url(#softShadow4)"/>
+                <text x="450" y="255" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Valid?</text>
+
+                <!-- No - Error -->
+                <line x1="380" y1="250" x2="200" y2="250" stroke="#8fa6bb" stroke-width="2"/>
+                <rect x="50" y="225" width="150" height="50" fill="#d9a89f" stroke="#b08070" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="125" y="255" font-size="11" font-weight="bold" text-anchor="middle" fill="white">Return Error List</text>
+                <text x="200" y="240" font-size="10" font-weight="bold" fill="#8fa6bb">NO</text>
+
+                <!-- Yes - Continue -->
+                <line x1="450" y1="300" x2="450" y2="330" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+                <text x="470" y="320" font-size="10" font-weight="bold" fill="#7fb3b8">YES</text>
+
+                <!-- RAG Retrieval -->
+                <rect x="300" y="330" width="300" height="50" fill="#8ab4d5" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="360" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Retrieve RAG Context</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="380" x2="450" y2="410" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- Select Template -->
+                <rect x="200" y="410" width="500" height="70" fill="#b3a6be" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="435" font-size="12" font-weight="bold" text-anchor="middle" fill="white">SELECT TEMPLATE BY LEVEL</text>
+                <text x="450" y="455" font-size="11" text-anchor="middle" fill="white">L1: Quick (1-2 pg) | L2: Standard (5-10 pg) | L3: Detailed (15-25 pg)</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="480" x2="450" y2="510" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- Format Prompt -->
+                <rect x="250" y="510" width="400" height="70" fill="#8abcc9" stroke="#6b94a0" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="535" font-size="12" font-weight="bold" text-anchor="middle" fill="white">FORMAT LLM PROMPT</text>
+                <text x="450" y="555" font-size="11" text-anchor="middle" fill="white">Template + slot values + RAG context (4 docs)</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="580" x2="450" y2="610" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- LLM Call -->
+                <rect x="150" y="610" width="600" height="80" fill="#d9a896" stroke="#b08070" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="635" font-size="12" font-weight="bold" text-anchor="middle" fill="white">INVOKE GOOGLE GEMINI API</text>
+                <text x="450" y="655" font-size="11" text-anchor="middle" fill="white">System prompt (role) + User prompt (data + context)</text>
+                <text x="450" y="672" font-size="11" text-anchor="middle" fill="white">Temperature: 0.4 (consistent) | Max tokens: 4000-4096</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="690" x2="450" y2="730" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- LLM Response -->
+                <rect x="200" y="730" width="500" height="70" fill="#c9a5b5" stroke="#9f7d8f" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="755" font-size="12" font-weight="bold" text-anchor="middle" fill="white">LLM GENERATES PROPOSAL</text>
+                <text x="450" y="775" font-size="11" text-anchor="middle" fill="white">Markdown formatted with sections, clauses, recommendations</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="800" x2="450" y2="840" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- Store & Display -->
+                <rect x="250" y="840" width="400" height="60" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="865" font-size="12" font-weight="bold" text-anchor="middle" fill="white">✓ STORE IN SESSION & DISPLAY</text>
+                <text x="450" y="882" font-size="11" text-anchor="middle" fill="white">Ready for save/download/share</text>
+
+                <!-- Performance -->
+                <rect x="100" y="930" width="700" height="50" fill="#f8f9fb" stroke="#e0e0e0" stroke-width="1" rx="5"/>
+                <text x="450" y="955" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    ⏱️ Performance: L1 ~90s | L2 ~2.5min | L3 ~3.5min (90% is LLM latency)
+                </text>
+
+                <defs>
+                    <marker id="arrowhead4" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#8fa6bb" />
+                    </marker>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- TAB 5: STATE MACHINE -->
+        <div class="tab-content">
+            <h2>Session State Machine</h2>
+            <div class="description">
+                Session state progression through phases and fields, with phase advancement and field indexing logic.
+            </div>
+
+            <svg viewBox="0 0 1000 900" width="1000" height="900">
+                <defs>
+                    <filter id="softShadow5" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
+                <!-- Title -->
+                <text x="500" y="30" font-size="18" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    SESSION STATE MACHINE - FIELD PROGRESSION
+                </text>
+
+                <!-- State display -->
+                <rect x="50" y="60" width="900" height="70" fill="#f8f9fb" stroke="#e0e0e0" stroke-width="1" rx="5"/>
+                <text x="500" y="80" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Current State:</text>
+                <text x="500" y="100" font-size="11" text-anchor="middle" fill="#5a6f8f">
+                    level = "L3" | phase = "phase_1" | field_index = 0 | all_complete = False
+                </text>
+
+                <!-- Arrow -->
+                <line x1="500" y1="130" x2="500" y2="160" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+
+                <!-- Loop title -->
+                <rect x="200" y="160" width="600" height="40" fill="#c9a5b5" stroke="#9f7d8f" stroke-width="1.5" rx="5" filter="url(#softShadow5)"/>
+                <text x="500" y="185" font-size="12" font-weight="bold" text-anchor="middle" fill="white">LOOP: While not all_complete</text>
+
+                <!-- Arrow -->
+                <line x1="500" y1="200" x2="500" y2="230" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+
+                <!-- Get Field -->
+                <rect x="250" y="230" width="500" height="70" fill="#8ab4d5" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow5)"/>
+                <text x="500" y="255" font-size="12" font-weight="bold" text-anchor="middle" fill="white">GET CURRENT FIELD</text>
+                <text x="500" y="275" font-size="11" text-anchor="middle" fill="white">
+                    phases = get_phase_fields(session.current_phase)
+                </text>
+                <text x="500" y="292" font-size="11" text-anchor="middle" fill="white">
+                    field = phases[session.current_field_index]
+                </text>
+
+                <!-- Arrow -->
+                <line x1="500" y1="300" x2="500" y2="330" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+
+                <!-- Display & Get Answer -->
+                <rect x="150" y="330" width="700" height="60" fill="#d9b896" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow5)"/>
+                <text x="500" y="355" font-size="12" font-weight="bold" text-anchor="middle" fill="white">DISPLAY QUESTION & GET ANSWER</text>
+                <text x="500" y="373" font-size="11" text-anchor="middle" fill="white">field.question → user.input → answer</text>
+
+                <!-- Arrow -->
+                <line x1="500" y1="390" x2="500" y2="420" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+
+                <!-- Process -->
+                <rect x="200" y="420" width="600" height="70" fill="#d9a896" stroke="#b08070" stroke-width="1.5" rx="5" filter="url(#softShadow5)"/>
+                <text x="500" y="445" font-size="12" font-weight="bold" text-anchor="middle" fill="white">PROCESS ANSWER</text>
+                <text x="500" y="465" font-size="11" text-anchor="middle" fill="white">
+                    session.slots[field.key] = answer | check_risks(session.slots) | invoke_llm()
+                </text>
+
+                <!-- Arrow -->
+                <line x1="500" y1="490" x2="500" y2="520" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+
+                <!-- Decision Advance -->
+                <polygon points="500,520 580,570 500,620 420,570" fill="#d9c89c" stroke="#b09070" stroke-width="1.5" filter="url(#softShadow5)"/>
+                <text x="500" y="575" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">ADVANCE?</text>
+
+                <!-- No - Clarify loop -->
+                <line x1="420" y1="570" x2="150" y2="570" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="150" y1="570" x2="150" y2="360" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="150" y1="360" x2="250" y2="360" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+                <text x="180" y="465" font-size="10" font-weight="bold" fill="#8fa6bb">NO (limit 1)</text>
+
+                <!-- Yes - Advance -->
+                <line x1="500" y1="620" x2="500" y2="650" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+                <text x="520" y="640" font-size="10" font-weight="bold" fill="#7fb3b8">YES</text>
+
+                <!-- Increment -->
+                <rect x="300" y="650" width="400" height="60" fill="#b3a6be" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow5)"/>
+                <text x="500" y="670" font-size="11" font-weight="bold" text-anchor="middle" fill="white">INCREMENT FIELD INDEX</text>
+                <text x="500" y="688" font-size="11" text-anchor="middle" fill="white">session.current_field_index++</text>
+
+                <!-- Arrow -->
+                <line x1="500" y1="710" x2="500" y2="740" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+
+                <!-- Check if complete -->
+                <polygon points="500,740 580,790 500,840 420,790" fill="#d9c89c" stroke="#b09070" stroke-width="1.5" filter="url(#softShadow5)"/>
+                <text x="500" y="795" font-size="10" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    index ≥
+                </text>
+                <text x="500" y="810" font-size="10" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    phase_len?
+                </text>
+
+                <!-- No - Continue loop -->
+                <line x1="420" y1="790" x2="50" y2="790" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="50" y1="790" x2="50" y2="265" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="50" y1="265" x2="250" y2="265" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+                <text x="100" y="780" font-size="10" font-weight="bold" fill="#8fa6bb">NO</text>
+
+                <!-- Yes - Next Phase -->
+                <line x1="500" y1="840" x2="500" y2="870" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead5)"/>
+                <text x="520" y="860" font-size="10" font-weight="bold" fill="#7fb3b8">YES</text>
+
+                <!-- Next Phase -->
+                <rect x="250" y="870" width="500" height="50" fill="#8abcc9" stroke="#6b94a0" stroke-width="1.5" rx="5" filter="url(#softShadow5)"/>
+                <text x="500" y="897" font-size="11" font-weight="bold" text-anchor="middle" fill="white">Next phase OR set all_complete=True</text>
+
+                <defs>
+                    <marker id="arrowhead5" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#8fa6bb" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <div class="description" style="margin-top: 30px;">
+                <strong>Key State Variables:</strong><br>
+                • <code>current_phase</code>: "phase_1" to "phase_5" (L3) or just selected level (L1/L2)<br>
+                • <code>current_field_index</code>: 0 to N (number of fields in phase)<br>
+                • <code>slots</code>: Dictionary of all user-entered data<br>
+                • <code>all_complete</code>: Boolean flag, triggers generation when True
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showTab(tabIndex) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            tabs[tabIndex].classList.add('active');
+            buttons[tabIndex].classList.add('active');
+        }
+    </script>
+</body>
+</html>

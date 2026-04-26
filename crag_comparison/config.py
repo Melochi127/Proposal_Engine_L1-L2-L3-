@@ -8,8 +8,9 @@ load_dotenv()
 
 #BASE_DIR = Path(__file__).parent
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(BASE_DIR)
 
-RAG_DATA_DIR = os.path.join(BASE_DIR, "rag_data")
+RAG_DATA_DIR = os.path.join(PROJECT_ROOT, "rag_data")
 CHROMA_DIR = os.path.join(RAG_DATA_DIR, "chroma_db")
 BM25_STORE = os.path.join(RAG_DATA_DIR, "bm25_chunks.pkl")
 

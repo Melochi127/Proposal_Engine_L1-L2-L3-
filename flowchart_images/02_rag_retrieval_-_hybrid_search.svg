@@ -1,0 +1,88 @@
+<svg viewBox="0 0 900 700" width="900" height="700">
+                <defs>
+                    <filter id="softShadow2" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
+                <!-- Title -->
+                <text x="450" y="30" font-size="18" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    RAG RETRIEVAL - HYBRID SEARCH PIPELINE
+                </text>
+
+                <!-- Query -->
+                <rect x="350" y="60" width="200" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow2)"/>
+                <text x="450" y="90" font-size="13" font-weight="bold" text-anchor="middle" fill="white">Query from LLM</text>
+
+                <!-- Arrow down -->
+                <line x1="450" y1="110" x2="450" y2="140" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+                <!-- Split into 3 paths -->
+                <line x1="450" y1="140" x2="150" y2="200" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="450" y1="140" x2="450" y2="200" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="450" y1="140" x2="750" y2="200" stroke="#8fa6bb" stroke-width="2"/>
+
+                <!-- BM25 Path -->
+                <rect x="50" y="200" width="200" height="60" fill="#d9b896" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="150" y="225" font-size="12" font-weight="bold" text-anchor="middle" fill="white">BM25 SEARCH</text>
+                <text x="150" y="245" font-size="11" text-anchor="middle" fill="white">Keyword-based (60%)</text>
+
+                <!-- Dense Path -->
+                <rect x="350" y="200" width="200" height="60" fill="#8ab4d5" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="450" y="225" font-size="12" font-weight="bold" text-anchor="middle" fill="white">DENSE SEARCH</text>
+                <text x="450" y="245" font-size="11" text-anchor="middle" fill="white">Semantic (40%)</text>
+
+                <!-- CRAG Path -->
+                <rect x="650" y="200" width="200" height="60" fill="#b3a6be" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="750" y="225" font-size="12" font-weight="bold" text-anchor="middle" fill="white">CRAG VALIDATION</text>
+                <text x="750" y="245" font-size="11" text-anchor="middle" fill="white">Relevance check</text>
+
+                <!-- Arrows down from paths -->
+                <line x1="150" y1="260" x2="150" y2="300" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <line x1="450" y1="260" x2="450" y2="300" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+                <line x1="750" y1="260" x2="750" y2="300" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+                <!-- Results boxes -->
+                <rect x="75" y="300" width="150" height="60" fill="#e5d9d1" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="150" y="320" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Top 8 docs</text>
+                <text x="150" y="337" font-size="10" text-anchor="middle" fill="#5a6f8f">with scores</text>
+
+                <rect x="375" y="300" width="150" height="60" fill="#d4e5f0" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="450" y="320" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Top 8 docs</text>
+                <text x="450" y="337" font-size="10" text-anchor="middle" fill="#5a6f8f">with similarities</text>
+
+                <rect x="675" y="300" width="150" height="60" fill="#e0d9e8" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="750" y="320" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Validate</text>
+                <text x="750" y="337" font-size="10" text-anchor="middle" fill="#5a6f8f">confidence >0.7</text>
+
+                <!-- Merge arrows -->
+                <line x1="150" y1="360" x2="450" y2="410" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="450" y1="360" x2="450" y2="410" stroke="#8fa6bb" stroke-width="2"/>
+                <line x1="750" y1="360" x2="450" y2="410" stroke="#8fa6bb" stroke-width="2"/>
+
+                <!-- Fusion -->
+                <rect x="300" y="410" width="300" height="80" fill="#c9a5b5" stroke="#9f7d8f" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="450" y="435" font-size="12" font-weight="bold" text-anchor="middle" fill="white">RECIPROCAL RANK FUSION</text>
+                <text x="450" y="455" font-size="11" text-anchor="middle" fill="white">merged_score = 0.6 × bm25_rank</text>
+                <text x="450" y="472" font-size="11" text-anchor="middle" fill="white">+ 0.4 × dense_rank</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="490" x2="450" y2="520" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+                <!-- Final sorting -->
+                <rect x="300" y="520" width="300" height="60" fill="#8abcc9" stroke="#6b94a0" stroke-width="1.5" rx="5" filter="url(#softShadow2)"/>
+                <text x="450" y="545" font-size="12" font-weight="bold" text-anchor="middle" fill="white">SORT & DEDUPLICATE</text>
+                <text x="450" y="565" font-size="11" text-anchor="middle" fill="white">Return top 4 documents</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="580" x2="450" y2="610" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead2)"/>
+
+                <!-- Context -->
+                <rect x="300" y="610" width="300" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow2)"/>
+                <text x="450" y="640" font-size="12" font-weight="bold" text-anchor="middle" fill="white">✓ CONTEXT READY FOR LLM</text>
+
+                <defs>
+                    <marker id="arrowhead2" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#8fa6bb" />
+                    </marker>
+                </defs>
+            </svg>

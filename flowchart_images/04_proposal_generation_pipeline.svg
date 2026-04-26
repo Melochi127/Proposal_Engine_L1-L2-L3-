@@ -1,0 +1,93 @@
+<svg viewBox="0 0 900 1000" width="900" height="1000">
+                <defs>
+                    <filter id="softShadow4" x="-50%" y="-50%" width="200%" height="200%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+                    </filter>
+                </defs>
+                <!-- Title -->
+                <text x="450" y="30" font-size="18" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    PROPOSAL GENERATION - PIPELINE
+                </text>
+
+                <!-- All Slots Collected -->
+                <rect x="300" y="60" width="300" height="50" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="25" filter="url(#softShadow4)"/>
+                <text x="450" y="90" font-size="13" font-weight="bold" text-anchor="middle" fill="white">All Slots Collected</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="110" x2="450" y2="140" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- Validate -->
+                <rect x="300" y="140" width="300" height="50" fill="#d9b896" stroke="#b09070" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="170" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Validate Required Fields</text>
+
+                <!-- Decision -->
+                <polygon points="450,200 520,250 450,300 380,250" fill="#d9c89c" stroke="#b09070" stroke-width="1.5" filter="url(#softShadow4)"/>
+                <text x="450" y="255" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">Valid?</text>
+
+                <!-- No - Error -->
+                <line x1="380" y1="250" x2="200" y2="250" stroke="#8fa6bb" stroke-width="2"/>
+                <rect x="50" y="225" width="150" height="50" fill="#d9a89f" stroke="#b08070" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="125" y="255" font-size="11" font-weight="bold" text-anchor="middle" fill="white">Return Error List</text>
+                <text x="200" y="240" font-size="10" font-weight="bold" fill="#8fa6bb">NO</text>
+
+                <!-- Yes - Continue -->
+                <line x1="450" y1="300" x2="450" y2="330" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+                <text x="470" y="320" font-size="10" font-weight="bold" fill="#7fb3b8">YES</text>
+
+                <!-- RAG Retrieval -->
+                <rect x="300" y="330" width="300" height="50" fill="#8ab4d5" stroke="#6b8db3" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="360" font-size="12" font-weight="bold" text-anchor="middle" fill="white">Retrieve RAG Context</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="380" x2="450" y2="410" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- Select Template -->
+                <rect x="200" y="410" width="500" height="70" fill="#b3a6be" stroke="#8b7e96" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="435" font-size="12" font-weight="bold" text-anchor="middle" fill="white">SELECT TEMPLATE BY LEVEL</text>
+                <text x="450" y="455" font-size="11" text-anchor="middle" fill="white">L1: Quick (1-2 pg) | L2: Standard (5-10 pg) | L3: Detailed (15-25 pg)</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="480" x2="450" y2="510" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- Format Prompt -->
+                <rect x="250" y="510" width="400" height="70" fill="#8abcc9" stroke="#6b94a0" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="535" font-size="12" font-weight="bold" text-anchor="middle" fill="white">FORMAT LLM PROMPT</text>
+                <text x="450" y="555" font-size="11" text-anchor="middle" fill="white">Template + slot values + RAG context (4 docs)</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="580" x2="450" y2="610" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- LLM Call -->
+                <rect x="150" y="610" width="600" height="80" fill="#d9a896" stroke="#b08070" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="635" font-size="12" font-weight="bold" text-anchor="middle" fill="white">INVOKE GOOGLE GEMINI API</text>
+                <text x="450" y="655" font-size="11" text-anchor="middle" fill="white">System prompt (role) + User prompt (data + context)</text>
+                <text x="450" y="672" font-size="11" text-anchor="middle" fill="white">Temperature: 0.4 (consistent) | Max tokens: 4000-4096</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="690" x2="450" y2="730" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- LLM Response -->
+                <rect x="200" y="730" width="500" height="70" fill="#c9a5b5" stroke="#9f7d8f" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="755" font-size="12" font-weight="bold" text-anchor="middle" fill="white">LLM GENERATES PROPOSAL</text>
+                <text x="450" y="775" font-size="11" text-anchor="middle" fill="white">Markdown formatted with sections, clauses, recommendations</text>
+
+                <!-- Arrow -->
+                <line x1="450" y1="800" x2="450" y2="840" stroke="#8fa6bb" stroke-width="2" marker-end="url(#arrowhead4)"/>
+
+                <!-- Store & Display -->
+                <rect x="250" y="840" width="400" height="60" fill="#98d8c8" stroke="#6ba9a0" stroke-width="1.5" rx="5" filter="url(#softShadow4)"/>
+                <text x="450" y="865" font-size="12" font-weight="bold" text-anchor="middle" fill="white">✓ STORE IN SESSION & DISPLAY</text>
+                <text x="450" y="882" font-size="11" text-anchor="middle" fill="white">Ready for save/download/share</text>
+
+                <!-- Performance -->
+                <rect x="100" y="930" width="700" height="50" fill="#f8f9fb" stroke="#e0e0e0" stroke-width="1" rx="5"/>
+                <text x="450" y="955" font-size="11" font-weight="bold" text-anchor="middle" fill="#5a6f8f">
+                    ⏱️ Performance: L1 ~90s | L2 ~2.5min | L3 ~3.5min (90% is LLM latency)
+                </text>
+
+                <defs>
+                    <marker id="arrowhead4" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                        <polygon points="0 0, 10 5, 0 10" fill="#8fa6bb" />
+                    </marker>
+                </defs>
+            </svg>

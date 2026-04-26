@@ -4,6 +4,11 @@ __pycache__/
 *.pyc
 .env
 
+# Runtime artifacts
+proposals/
+streamlit_*.log
+*.log
+
 # GDPR Compliance: Exclude sensitive data and embeddings
 # Only exclude: Legal templates, SLA/Pricing docs, proprietary business rules, vector databases
 chroma_db/
